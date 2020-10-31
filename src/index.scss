@@ -1,0 +1,195 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	color: var(--text);
+	/* Variables */
+	--text: #333333;
+	--primary: #2980b9;
+	--dark: #2c3e50;
+	--dark-light: #34495e;
+	--light: #ecf0f1;
+	--light-dark: #bdc3c7;
+	--hint: #1abc9c;
+	--danger: #e74c3c;
+	--box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+}
+
+/* Classes */
+.center-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.dark-light {
+	background: var(--dark-light);
+}
+
+.container {
+	background: var(--dark);
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	.content {
+		background: var(--light);
+		width: 50vh;
+		min-height: 50vh;
+		border-radius: 0.5rem;
+		box-shadow: var(--box-shadow);
+		.player {
+			padding: 0 2rem;
+			border-radius: 0.5rem;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+		}
+
+		.separator {
+			width: 100%;
+			height: 0.1rem;
+			background: var(--light-dark);
+		}
+		.game {
+			padding: 2rem;
+			background: var(--dark-light);
+			border-radius: 0 0 0.5rem 0.5rem;
+			display: grid;
+			grid:
+				"case1 case2 case3" 1fr
+				"case4 case5 case6" 1fr
+				"case7 case8 case9" 1fr / 1fr 1fr 1fr;
+
+			gap: 0.1rem;
+			#case1 {
+				grid-area: case1;
+				background: var(--light);
+				// padding: 2rem;
+				min-width: 6rem;
+				min-height: 6rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				border-top-left-radius: 0.5rem;
+			}
+			#case2 {
+				grid-area: case2;
+				background: var(--light);
+				// padding: 2rem;
+				min-width: 6rem;
+				min-height: 6rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			#case3 {
+				grid-area: case3;
+				background: var(--light);
+				// padding: 2rem;
+				min-width: 6rem;
+				min-height: 6rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				border-top-right-radius: 0.5rem;
+			}
+			#case4 {
+				grid-area: case4;
+				background: var(--light);
+				// padding: 2rem;
+				min-width: 6rem;
+				min-height: 6rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			#case5 {
+				grid-area: case5;
+				background: var(--light);
+				// padding: 2rem;
+				min-width: 6rem;
+				min-height: 6rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			#case6 {
+				grid-area: case6;
+				background: var(--light);
+				// padding: 2rem;
+				min-width: 6rem;
+				min-height: 6rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			#case7 {
+				grid-area: case7;
+				background: var(--light);
+				// padding: 2rem;
+				min-width: 6rem;
+				min-height: 6rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				border-bottom-left-radius: 0.5rem;
+			}
+			#case8 {
+				grid-area: case8;
+				background: var(--light);
+				// padding: 2rem;
+				min-width: 6rem;
+				min-height: 6rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			#case9 {
+				grid-area: case9;
+				background: var(--light);
+				// padding: 2rem;
+				min-width: 6rem;
+				min-height: 6rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				border-bottom-right-radius: 0.5rem;
+			}
+		}
+	}
+}
+
+.btn {
+	margin: 2rem 0;
+	padding: 1rem 2rem;
+	border-radius: 0.5rem;
+	box-shadow: var(--box-shadow);
+	&.btn-primary {
+		background: var(--primary);
+	}
+}
+
+.active {
+	&#player1 {
+		background: var(--danger);
+	}
+	&#player2 {
+		background: var(--hint);
+	}
+}
+
+.cursor {
+	cursor: pointer;
+}
+
+.fa-times {
+	color: var(--danger);
+	font-size: 2.5rem;
+}
+.fa-circle {
+	color: var(--hint);
+	font-size: 2.5rem;
+}
