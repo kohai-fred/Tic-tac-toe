@@ -1,1 +1,1 @@
-Training to JavaScript and webpack
+JavaScript and Webpack training on the tic-tac-toe game
