@@ -24,7 +24,62 @@
 .dark-light {
 	background: var(--dark-light);
 }
+.btn {
+	margin: 2rem 0;
+	padding: 1rem 2rem;
+	border-radius: 0.5rem;
+	box-shadow: var(--box-shadow);
+	&.btn-primary {
+		background: var(--primary);
+	}
+}
 
+.active {
+	&#player1 {
+		background: var(--danger);
+		color: var(--light);
+	}
+	&#player2 {
+		background: var(--hint);
+		color: var(--light);
+	}
+}
+
+.cursor {
+	cursor: pointer;
+}
+
+.fa-times {
+	color: var(--danger);
+	font-size: 2.5rem;
+}
+.fa-circle {
+	color: var(--hint);
+	font-size: 2.5rem;
+}
+
+.pos-relative {
+	position: relative;
+}
+.modal {
+	position: absolute;
+	top: 5%;
+	left: 5%;
+	width: 90%;
+	min-height: 90%;
+	border-radius: 0.5rem;
+	background: rgba(0, 0, 0, 0.8);
+	box-shadow: 0 0 4px rgba(255, 255, 255, 0.14),
+		0 4px 8px rgba(255, 255, 255, 0.28);
+	color: var(--light);
+	font-weight: 700;
+	font-size: 2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* Main */
 .container {
 	background: var(--dark);
 	height: 100vh;
@@ -160,36 +215,4 @@
 			}
 		}
 	}
-}
-
-.btn {
-	margin: 2rem 0;
-	padding: 1rem 2rem;
-	border-radius: 0.5rem;
-	box-shadow: var(--box-shadow);
-	&.btn-primary {
-		background: var(--primary);
-	}
-}
-
-.active {
-	&#player1 {
-		background: var(--danger);
-	}
-	&#player2 {
-		background: var(--hint);
-	}
-}
-
-.cursor {
-	cursor: pointer;
-}
-
-.fa-times {
-	color: var(--danger);
-	font-size: 2.5rem;
-}
-.fa-circle {
-	color: var(--hint);
-	font-size: 2.5rem;
 }

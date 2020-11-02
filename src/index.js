@@ -5,6 +5,8 @@ const gameElem = document.querySelector(".game");
 const btnReload = document.querySelector(".btn-reload");
 const body = document.querySelector(".container");
 
+console.log(players.firstElementChild.innerHTML);
+
 /* For compare results */
 let arraySquaresId = [];
 let case1 = 1;
@@ -20,6 +22,8 @@ let case9 = 9;
 let cross;
 let circle;
 
+let modal;
+
 const createCross = () => {
 	cross = document.createElement("i");
 	cross.classList.add("fas", "fa-times");
@@ -29,6 +33,12 @@ const createCircle = () => {
 	circle = document.createElement("i");
 	circle.classList.add("far", "fa-circle");
 	return circle;
+};
+
+const createModal = (content) => {
+	modal = document.createElement("div");
+	modal.classList.add("modal");
+	modal.append(content);
 };
 
 const activeTogglePlayer = () => {
@@ -132,14 +142,18 @@ squares.forEach((square) => {
 					(case3 == case5 && case5 == case7)
 				) {
 					if (target.firstChild.classList.contains("player1")) {
-						alert("Player 1 win");
-					} else if (target.firstChild.classList.contains("player2")) {
-						alert("Player 2 win");
-					} else {
-						console.log("Match NUL");
+						createModal(players.firstElementChild.innerHTML + " Win !");
+						gameElem.insertAdjacentElement("afterbegin", modal);
 					}
+					if (target.firstChild.classList.contains("player2")) {
+						// console.log(players.lastElementChild.innerHTML);
+						createModal(players.lastElementChild.innerHTML + " Win !");
+						gameElem.insertAdjacentElement("afterbegin", modal);
+					} /*  else {
+						console.log("Match NUL");
+					} */
 				}
-				console.log(
+				/* console.log(
 					case1,
 					case2,
 					case3,
@@ -149,7 +163,7 @@ squares.forEach((square) => {
 					case7,
 					case8,
 					case9
-				);
+				); */
 			};
 			check();
 		});
@@ -173,6 +187,9 @@ squares.forEach((square) => {
 		}
 		if (!players.children["player1"].classList.contains("active")) {
 			activeTogglePlayer();
+		}
+		if (gameElem.firstElementChild.classList.contains("modal")) {
+			modal.remove();
 		}
 	};
 	btnReload.addEventListener("click", reloadGame);
