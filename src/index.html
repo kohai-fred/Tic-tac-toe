@@ -12,23 +12,38 @@
 	<body>
 		<div class="container">
 			<div class="content">
-				<div class="player">
-					<div id="player1" class="btn active">Player 1</div>
-					<div id="player2" class="btn">Player 2</div>
+				<div class="players-container">
+					<div class="players-content">
+						<div id="player1" class="player active">
+							<span>Player 1</span>
+							<span class="">__</span>
+						</div>
+						<div class="count">0</div>
+						<div id="player2" class="player">
+							<span>Player 2</span>
+							<span>__</span>
+						</div>
+					</div>
+					<!-- <div class="players-content-count">
+						<div class="count">0</div>
+						<div class="count">0</div>
+					</div> -->
 				</div>
 
 				<div class="separator"></div>
 
-				<div class="game pos-relative">
-					<div id="case1" class="square"></div>
-					<div id="case2" class="square"></div>
-					<div id="case3" class="square"></div>
-					<div id="case4" class="square"></div>
-					<div id="case5" class="square"></div>
-					<div id="case6" class="square"></div>
-					<div id="case7" class="square"></div>
-					<div id="case8" class="square"></div>
-					<div id="case9" class="square"></div>
+				<div class="game">
+					<div class="game-content pos-relative">
+						<div id="case1" class="square"></div>
+						<div id="case2" class="square"></div>
+						<div id="case3" class="square"></div>
+						<div id="case4" class="square"></div>
+						<div id="case5" class="square"></div>
+						<div id="case6" class="square"></div>
+						<div id="case7" class="square"></div>
+						<div id="case8" class="square"></div>
+						<div id="case9" class="square"></div>
+					</div>
 				</div>
 			</div>
 			<div class="btn btn-reload btn-primary">Recommencer</div>

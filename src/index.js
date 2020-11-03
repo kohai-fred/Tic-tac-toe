@@ -1,11 +1,12 @@
 import "./index.scss";
-const players = document.querySelector(".player");
+const playersContent = document.querySelector(".players-content");
 const squares = document.querySelectorAll(".square");
-const gameElem = document.querySelector(".game");
+const gameContentElem = document.querySelector(".game-content");
 const btnReload = document.querySelector(".btn-reload");
-const body = document.querySelector(".container");
+const content = document.querySelector(".content");
+// const playersContentCount = document.querySelector(".players-content-count");
 
-console.log(players.firstElementChild.innerHTML);
+console.log(playersContent.children[1]);
 
 /* For compare results */
 let arraySquaresId = [];
@@ -25,6 +26,10 @@ let circle;
 
 let modal;
 
+let nbParts = 0;
+let nbWinsP1 = 0;
+let nbWinsP2 = 0;
+
 const createCross = () => {
 	cross = document.createElement("i");
 	cross.classList.add("fas", "fa-times");
@@ -40,24 +45,28 @@ const createModal = (content) => {
 	modal = document.createElement("div");
 	modal.classList.add("modal");
 	modal.append(content);
-	gameElem.insertAdjacentElement("afterbegin", modal);
+	gameContentElem.insertAdjacentElement("afterbegin", modal);
 };
 
 const activeTogglePlayer = () => {
-	if (players.children["player1"].classList.contains("active")) {
-		players.children["player1"].classList.remove("active");
+	if (playersContent.children["player1"].classList.contains("active")) {
+		playersContent.children["player1"].classList.remove("active");
 	} else {
-		players.children["player1"].classList.add("active");
+		playersContent.children["player1"].classList.add("active");
 	}
 
-	if (players.children["player2"].classList.contains("active")) {
-		players.children["player2"].classList.remove("active");
+	if (playersContent.children["player2"].classList.contains("active")) {
+		playersContent.children["player2"].classList.remove("active");
 	} else {
-		players.children["player2"].classList.add("active");
+		playersContent.children["player2"].classList.add("active");
 	}
 };
 
-// body.addEventListener("click", activeTogglePlayer);
+const displayCounters = () => {
+	playersContent.children[1].textContent = nbParts;
+	playersContent.firstElementChild.lastElementChild.textContent = nbWinsP1;
+	playersContent.lastElementChild.lastElementChild.textContent = nbWinsP2;
+};
 
 squares.forEach((square) => {
 	/* Create array for compare results */
@@ -69,7 +78,7 @@ squares.forEach((square) => {
 			const target = event.target;
 			/* Add cross and circle in the game */
 			if (
-				players.children["player1"].classList.contains("active") &&
+				playersContent.children["player1"].classList.contains("active") &&
 				target.classList.contains("cursor")
 			) {
 				createCross();
@@ -80,7 +89,7 @@ squares.forEach((square) => {
 			}
 
 			if (
-				players.children["player2"].classList.contains("active") &&
+				playersContent.children["player2"].classList.contains("active") &&
 				target.classList.contains("cursor")
 			) {
 				createCircle();
@@ -144,16 +153,31 @@ squares.forEach((square) => {
 					(case3 == case5 && case5 == case7)
 				) {
 					if (target.firstChild.classList.contains("player1")) {
-						createModal(players.firstElementChild.innerHTML + " Win !");
+						createModal(
+							playersContent.firstElementChild.firstElementChild.textContent +
+								" Win !"
+						);
+						nbParts++;
+						nbWinsP1++;
+						console.log(nbParts);
+						displayCounters();
 					}
 					if (target.firstChild.classList.contains("player2")) {
-						createModal(players.lastElementChild.innerHTML + " Win !");
+						createModal(
+							playersContent.lastElementChild.firstElementChild.textContent +
+								" Win !"
+						);
+						nbParts++;
+						nbWinsP2++;
+						displayCounters();
 					}
 				}
 				/* Count number click on square for condition of null match */
 				nullMatch++;
 				if (nullMatch == 9) {
 					createModal("Match null...");
+					nbParts++;
+					displayCounters();
 				}
 			};
 			check();
@@ -162,28 +186,37 @@ squares.forEach((square) => {
 
 	/* For clear game */
 	const reloadGame = () => {
-		if (square.hasChildNodes()) {
-			square.firstChild.remove();
-			square.classList.add("cursor");
-
-			case1 = 1;
-			case2 = 2;
-			case3 = 3;
-			case4 = 4;
-			case5 = 5;
-			case6 = 6;
-			case7 = 7;
-			case8 = 8;
-			case9 = 9;
-			nullMatch = 0;
+		if (!square.hasChildNodes()) {
+			const toTrash = document.createElement("span");
+			square.insertAdjacentElement("afterbegin", toTrash);
 		}
 
-		if (!players.children["player1"].classList.contains("active")) {
+		case1 = 1;
+		case2 = 2;
+		case3 = 3;
+		case4 = 4;
+		case5 = 5;
+		case6 = 6;
+		case7 = 7;
+		case8 = 8;
+		case9 = 9;
+		nullMatch = 0;
+
+		square.firstChild.remove();
+		square.classList.add("cursor");
+
+		if (!playersContent.children["player1"].classList.contains("active")) {
 			activeTogglePlayer();
 		}
-		if (gameElem.firstElementChild.classList.contains("modal")) {
+		if (gameContentElem.firstElementChild.classList.contains("modal")) {
 			modal.remove();
 		}
 	};
 	btnReload.addEventListener("click", reloadGame);
+	content.addEventListener("click", (event) => {
+		event.stopPropagation();
+		if (gameContentElem.firstElementChild.classList.contains("modal")) {
+			modal.addEventListener("click", reloadGame);
+		}
+	});
 });
