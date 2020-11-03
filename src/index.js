@@ -18,6 +18,7 @@ let case6 = 6;
 let case7 = 7;
 let case8 = 8;
 let case9 = 9;
+let nullMatch = 0;
 
 let cross;
 let circle;
@@ -39,6 +40,7 @@ const createModal = (content) => {
 	modal = document.createElement("div");
 	modal.classList.add("modal");
 	modal.append(content);
+	gameElem.insertAdjacentElement("afterbegin", modal);
 };
 
 const activeTogglePlayer = () => {
@@ -143,27 +145,16 @@ squares.forEach((square) => {
 				) {
 					if (target.firstChild.classList.contains("player1")) {
 						createModal(players.firstElementChild.innerHTML + " Win !");
-						gameElem.insertAdjacentElement("afterbegin", modal);
 					}
 					if (target.firstChild.classList.contains("player2")) {
-						// console.log(players.lastElementChild.innerHTML);
 						createModal(players.lastElementChild.innerHTML + " Win !");
-						gameElem.insertAdjacentElement("afterbegin", modal);
-					} /*  else {
-						console.log("Match NUL");
-					} */
+					}
 				}
-				/* console.log(
-					case1,
-					case2,
-					case3,
-					case4,
-					case5,
-					case6,
-					case7,
-					case8,
-					case9
-				); */
+				/* Count number click on square for condition of null match */
+				nullMatch++;
+				if (nullMatch == 9) {
+					createModal("Match null...");
+				}
 			};
 			check();
 		});
@@ -184,7 +175,9 @@ squares.forEach((square) => {
 			case7 = 7;
 			case8 = 8;
 			case9 = 9;
+			nullMatch = 0;
 		}
+
 		if (!players.children["player1"].classList.contains("active")) {
 			activeTogglePlayer();
 		}
