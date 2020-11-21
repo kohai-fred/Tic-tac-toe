@@ -4,22 +4,27 @@ const squares = document.querySelectorAll(".square");
 const gameContentElem = document.querySelector(".game-content");
 const btnReload = document.querySelector(".btn-reload");
 const content = document.querySelector(".content");
+const selectElem = document.querySelector("select");
 // const playersContentCount = document.querySelector(".players-content-count");
 
-console.log(playersContent.children[1]);
+// console.log(selectElem.options[0]);
 
 /* For compare results */
 let arraySquaresId = [];
-let case1 = 1;
-let case2 = 2;
-let case3 = 3;
-let case4 = 4;
-let case5 = 5;
-let case6 = 6;
-let case7 = 7;
-let case8 = 8;
-let case9 = 9;
+let elem;
+let arrayP1 = [];
+let arrayP2 = [];
+let case1 = 0;
+let case2 = 1;
+let case3 = 2;
+let case4 = 3;
+let case5 = 4;
+let case6 = 5;
+let case7 = 6;
+let case8 = 7;
+let case9 = 8;
 let nullMatch = 0;
+let caseOrdi;
 
 let cross;
 let circle;
@@ -30,193 +35,360 @@ let nbParts = 0;
 let nbWinsP1 = 0;
 let nbWinsP2 = 0;
 
-const createCross = () => {
-	cross = document.createElement("i");
-	cross.classList.add("fas", "fa-times");
-	return cross;
+const createCross = (target) => {
+  cross = document.createElement("i");
+  cross.classList.add("fas", "fa-times");
+  target.insertAdjacentElement("afterbegin", cross);
+
+  target.classList.remove("cursor");
+  target.firstChild.classList.add("player1");
+  activeTogglePlayer();
+  return cross;
 };
-const createCircle = () => {
-	circle = document.createElement("i");
-	circle.classList.add("far", "fa-circle");
-	return circle;
+const createCircle = (target) => {
+  circle = document.createElement("i");
+  circle.classList.add("far", "fa-circle");
+  target.insertAdjacentElement("afterbegin", circle);
+  target.classList.remove("cursor");
+  target.firstChild.classList.add("player2");
+  activeTogglePlayer();
+  return circle;
+};
+const createCircleOrdi = (elem) => {
+  circle = document.createElement("i");
+  circle.classList.add("far", "fa-circle");
+  elem.insertAdjacentElement("afterbegin", circle);
+  elem.classList.remove("cursor");
+  activeTogglePlayer();
+  return circle;
 };
 
 const createModal = (content) => {
-	modal = document.createElement("div");
-	modal.classList.add("modal");
-	modal.append(content);
-	gameContentElem.insertAdjacentElement("afterbegin", modal);
+  modal = document.createElement("div");
+  modal.classList.add("modal");
+  modal.append(content);
+  gameContentElem.insertAdjacentElement("afterbegin", modal);
 };
 
 const activeTogglePlayer = () => {
-	if (playersContent.children["player1"].classList.contains("active")) {
-		playersContent.children["player1"].classList.remove("active");
-	} else {
-		playersContent.children["player1"].classList.add("active");
-	}
+  if (playersContent.children["player1"].classList.contains("active")) {
+    playersContent.children["player1"].classList.remove("active");
+  } else {
+    playersContent.children["player1"].classList.add("active");
+  }
 
-	if (playersContent.children["player2"].classList.contains("active")) {
-		playersContent.children["player2"].classList.remove("active");
-	} else {
-		playersContent.children["player2"].classList.add("active");
-	}
+  if (playersContent.children["player2"].classList.contains("active")) {
+    playersContent.children["player2"].classList.remove("active");
+  } else {
+    playersContent.children["player2"].classList.add("active");
+  }
+};
+
+// For change opponent
+const opponentTogglePlayer = () => {
+  playersContent.children["player2"].firstElementChild.textContent =
+    selectElem.value;
+};
+
+const checkCaseOrdi = (elem, caseOrdi) => {
+  //   elem = gameContentElem.children[caseOrdi - 1];
+  switch (caseOrdi) {
+    case case1:
+      createCircleOrdi(elem);
+      break;
+    case case2:
+      createCircleOrdi(elem);
+      break;
+    case case3:
+      createCircleOrdi(elem);
+      break;
+    case case4:
+      createCircleOrdi(elem);
+      break;
+    case case5:
+      createCircleOrdi(elem);
+      break;
+    case case6:
+      createCircleOrdi(elem);
+      break;
+    case case7:
+      createCircleOrdi(elem);
+      break;
+    case case8:
+      createCircleOrdi(elem);
+      break;
+    case case9:
+      createCircleOrdi(elem);
+      break;
+  }
+  elem.firstElementChild.classList.add("player2");
+  arraySquaresId[caseOrdi] = "player2";
+  console.log(elem);
 };
 
 const displayCounters = () => {
-	playersContent.children[1].textContent = nbParts;
-	playersContent.firstElementChild.lastElementChild.textContent = nbWinsP1;
-	playersContent.lastElementChild.lastElementChild.textContent = nbWinsP2;
+  playersContent.children[1].textContent = nbParts;
+  playersContent.firstElementChild.lastElementChild.textContent = nbWinsP1;
+  playersContent.lastElementChild.lastElementChild.textContent = nbWinsP2;
 };
 
 squares.forEach((square) => {
-	/* Create array for compare results */
-	arraySquaresId.push(square.id);
+  /* Create array for compare results */
+  arraySquaresId.push(square.id);
 
-	if (!square.hasChildNodes()) {
-		square.classList.add("cursor");
-		square.addEventListener("click", (event) => {
-			const target = event.target;
-			/* Add cross and circle in the game */
-			if (
-				playersContent.children["player1"].classList.contains("active") &&
-				target.classList.contains("cursor")
-			) {
-				createCross();
-				target.insertAdjacentElement("afterbegin", cross);
+  // For change opponent
+  selectElem.addEventListener("change", () => {
+    opponentTogglePlayer();
+    reloadGame();
+    nbParts = 0;
+    nbWinsP1 = 0;
+    nbWinsP2 = 0;
+    displayCounters();
+  });
 
-				target.classList.remove("cursor");
-				activeTogglePlayer();
-			}
+  if (!square.hasChildNodes()) {
+    square.classList.add("cursor");
+    square.addEventListener("click", (event) => {
+      const target = event.target;
+      //   console.log(target.id);
+      /* Add cross and circle in the game */
+      if (
+        playersContent.children["player1"].classList.contains("active") &&
+        target.classList.contains("cursor")
+      ) {
+        createCross(target);
+        // target.insertAdjacentElement("afterbegin", cross);
 
-			if (
-				playersContent.children["player2"].classList.contains("active") &&
-				target.classList.contains("cursor")
-			) {
-				createCircle();
-				target.insertAdjacentElement("afterbegin", circle);
-				target.classList.remove("cursor");
-				activeTogglePlayer();
-			}
+        // target.classList.remove("cursor");
+        // activeTogglePlayer();
 
-			/* For compare results */
-			const check = () => {
-				if (target.firstChild.classList.contains("fa-times")) {
-					target.firstChild.classList.add("player1");
-				}
-				if (target.firstChild.classList.contains("fa-circle")) {
-					target.firstChild.classList.add("player2");
-				}
-				if (arraySquaresId[0] == target.id) {
-					case1 = target.firstChild.className;
-					console.log(case1);
-				}
-				if (arraySquaresId[1] == target.id) {
-					case2 = target.firstChild.className;
-					console.log(case2);
-				}
-				if (arraySquaresId[2] == target.id) {
-					case3 = target.firstChild.className;
-					console.log(case3);
-				}
-				if (arraySquaresId[3] == target.id) {
-					case4 = target.firstChild.className;
-					console.log(arraySquaresId[3], target.id);
-				}
-				if (arraySquaresId[4] == target.id) {
-					case5 = target.firstChild.className;
-					console.log(case5);
-				}
-				if (arraySquaresId[5] == target.id) {
-					case6 = target.firstChild.className;
-					console.log(case6);
-				}
-				if (arraySquaresId[6] == target.id) {
-					case7 = target.firstChild.className;
-					console.log(case7);
-				}
-				if (arraySquaresId[7] == target.id) {
-					case8 = target.firstChild.className;
-					console.log(case8);
-				}
-				if (arraySquaresId[8] == target.id) {
-					case9 = target.firstChild.className;
-					console.log(case9);
-				}
-				if (
-					(case1 == case2 && case2 == case3) ||
-					(case4 == case5 && case5 == case6) ||
-					(case7 == case8 && case8 == case9) ||
-					(case1 == case4 && case4 == case7) ||
-					(case2 == case5 && case5 == case8) ||
-					(case3 == case6 && case6 == case9) ||
-					(case1 == case5 && case5 == case9) ||
-					(case3 == case5 && case5 == case7)
-				) {
-					if (target.firstChild.classList.contains("player1")) {
-						createModal(
-							playersContent.firstElementChild.firstElementChild.textContent +
-								" Win !"
-						);
-						nbParts++;
-						nbWinsP1++;
-						console.log(nbParts);
-						displayCounters();
-					}
-					if (target.firstChild.classList.contains("player2")) {
-						createModal(
-							playersContent.lastElementChild.firstElementChild.textContent +
-								" Win !"
-						);
-						nbParts++;
-						nbWinsP2++;
-						displayCounters();
-					}
-				}
-				/* Count number click on square for condition of null match */
-				nullMatch++;
-				if (nullMatch == 9) {
-					createModal("Match null...");
-					nbParts++;
-					displayCounters();
-				}
-			};
-			check();
-		});
-	}
+        if (selectElem.value == selectElem.options[0].value) {
+          caseOrdi = Math.floor(Math.random() * 9);
+          //   let elem;
+          elem = gameContentElem.children[caseOrdi];
 
-	/* For clear game */
-	const reloadGame = () => {
-		if (!square.hasChildNodes()) {
-			const toTrash = document.createElement("span");
-			square.insertAdjacentElement("afterbegin", toTrash);
-		}
+          // while (elem == target) {
+          //   caseOrdi = Math.floor(Math.random() * 9);
+          // }
+          console.table(
+            case1,
+            case2,
+            case3,
+            case4,
+            case5,
+            case6,
+            case7,
+            case8,
+            case9,
+            arraySquaresId
+          );
+          /* console.log(elem);
+          elem.children.forEach((elemChild) => {
+            console.log("before => ", elem, elemChild);
+            caseOrdi = Math.floor(Math.random() * 9);
+            elem = gameContentElem.children[caseOrdi];
+            if (elem != target && elemChild.length == 0) {
+              checkCaseOrdi(elem);
+            }
+            console.log("after => ", elem, elemChild);
+          }); */
+          if (elem.children.length > 0) {
+            caseOrdi = Math.floor(Math.random() * 9);
+          }
+          if (elem != target && elem.children.length == 0) {
+            checkCaseOrdi(elem, caseOrdi);
+          }
+          console.log(elem);
 
-		case1 = 1;
-		case2 = 2;
-		case3 = 3;
-		case4 = 4;
-		case5 = 5;
-		case6 = 6;
-		case7 = 7;
-		case8 = 8;
-		case9 = 9;
-		nullMatch = 0;
+          /* console.log("caseOrdi avant IF ", caseOrdi);
+          console.log("elem = ", elem.id);
+          console.log(elem); //   console.log("target", target);
 
-		square.firstChild.remove();
-		square.classList.add("cursor");
+          if (caseOrdi > 8 || elem.children.length == 1 || elem == target) {
+            caseOrdi = Math.floor(Math.random() * 10);
+            console.log(
+              "caseOrdi IF= ",
+              caseOrdi,
+              ", length = ",
+              elem.children[caseOrdi].length,
+              "elem.id = ",
+              elem.children[caseOrdi]
+            );
+            checkCaseOrdi(elem);
+          }
+          if (caseOrdi != 0 && elem.children.length == 0) {
+            checkCaseOrdi(elem);
+          } */
+          //   console.log(elem);
 
-		if (!playersContent.children["player1"].classList.contains("active")) {
-			activeTogglePlayer();
-		}
-		if (gameContentElem.firstElementChild.classList.contains("modal")) {
-			modal.remove();
-		}
-	};
-	btnReload.addEventListener("click", reloadGame);
-	content.addEventListener("click", (event) => {
-		event.stopPropagation();
-		if (gameContentElem.firstElementChild.classList.contains("modal")) {
-			modal.addEventListener("click", reloadGame);
-		}
-	});
+          //   console.log(caseOrdi);
+        }
+      }
+
+      if (
+        playersContent.children["player2"].classList.contains("active") &&
+        target.classList.contains("cursor") &&
+        selectElem.value != selectElem.options[0].value
+      ) {
+        createCircle(target);
+        // target.insertAdjacentElement("afterbegin", circle);
+        // target.classList.remove("cursor");
+        // activeTogglePlayer();
+        // if (selectElem.value == selectElem.options[0].value) {
+        //   caseOrdi = Math.floor(Math.random() * 10);
+        //   console.log(caseOrdi);
+        // }
+      }
+
+      /* For compare results */
+      const check = () => {
+        // if (target.firstChild.classList.contains("fa-times")) {
+        //   target.firstChild.classList.add("player1");
+        // }
+        // if (target.firstChild.classList.contains("fa-circle")) {
+        //   target.firstChild.classList.add("player2");
+        // }
+        for (let i = 0; i < arraySquaresId.length; i++) {
+          if (arraySquaresId[i] == target.id) {
+            arraySquaresId[i] = target.firstChild.className;
+          }
+          if (arraySquaresId[i] == elem.id) {
+            arraySquaresId[i] = elem.firstChild.className;
+          }
+        }
+        /* for (target.firstChild.className in arraySquaresId == 3) {
+          console.log(arraySquaresId[target.firstChild.className]);
+        } */
+        console.log(arraySquaresId);
+        console.log(arrayP1);
+        console.log(arrayP2);
+        if (arraySquaresId[0] == target.id) {
+          case1 = target.firstChild.className;
+          // console.log(case1);
+        }
+        if (arraySquaresId[1] == target.id) {
+          case2 = target.firstChild.className;
+          // console.log(case2);
+        }
+        if (arraySquaresId[2] == target.id) {
+          case3 = target.firstChild.className;
+          // console.log(case3);
+        }
+        if (arraySquaresId[3] == target.id) {
+          case4 = target.firstChild.className;
+          // console.log(arraySquaresId[3], target.id);
+        }
+        if (arraySquaresId[4] == target.id) {
+          case5 = target.firstChild.className;
+          // console.log(case5);
+        }
+        if (arraySquaresId[5] == target.id) {
+          case6 = target.firstChild.className;
+          // console.log(case6);
+        }
+        if (arraySquaresId[6] == target.id) {
+          case7 = target.firstChild.className;
+          // console.log(case7);
+        }
+        if (arraySquaresId[7] == target.id) {
+          case8 = target.firstChild.className;
+          // console.log(case8);
+        }
+        if (arraySquaresId[8] == target.id) {
+          case9 = target.firstChild.className;
+          // console.log(case9);
+        }
+        if (
+          // (case1 == case2 && case2 == case3) ||
+          // (case4 == case5 && case5 == case6) ||
+          // (case7 == case8 && case8 == case9) ||
+          // (case1 == case4 && case4 == case7) ||
+          // (case2 == case5 && case5 == case8) ||
+          // (case3 == case6 && case6 == case9) ||
+          // (case1 == case5 && case5 == case9) ||
+          // (case3 == case5 && case5 == case7)
+          (arraySquaresId[0] == arraySquaresId[1] &&
+            arraySquaresId[1] == arraySquaresId[2]) ||
+          (arraySquaresId[3] == arraySquaresId[4] &&
+            arraySquaresId[4] == arraySquaresId[5]) ||
+          (arraySquaresId[6] == arraySquaresId[7] &&
+            arraySquaresId[7] == arraySquaresId[8]) ||
+          (arraySquaresId[0] == arraySquaresId[3] &&
+            arraySquaresId[3] == arraySquaresId[6]) ||
+          (arraySquaresId[1] == arraySquaresId[4] &&
+            arraySquaresId[4] == arraySquaresId[7]) ||
+          (arraySquaresId[2] == arraySquaresId[5] &&
+            arraySquaresId[5] == arraySquaresId[8]) ||
+          (arraySquaresId[0] == arraySquaresId[4] &&
+            arraySquaresId[4] == arraySquaresId[8]) ||
+          (arraySquaresId[2] == arraySquaresId[4] &&
+            arraySquaresId[4] == arraySquaresId[6])
+        ) {
+          if (target.firstChild.classList.contains("player1")) {
+            createModal(
+              playersContent.firstElementChild.firstElementChild.textContent +
+                " Win !"
+            );
+            nbParts++;
+            nbWinsP1++;
+            // console.log(nbParts);
+            displayCounters();
+          }
+          if (target.firstChild.classList.contains("player2")) {
+            createModal(
+              playersContent.lastElementChild.firstElementChild.textContent +
+                " Win !"
+            );
+            nbParts++;
+            nbWinsP2++;
+            displayCounters();
+          }
+        }
+        /* Count number click on square for condition of null match */
+        nullMatch++;
+        if (nullMatch == 9) {
+          createModal("Match null...");
+          nbParts++;
+          displayCounters();
+        }
+      };
+      check();
+    });
+  }
+
+  /* For clear game */
+  const reloadGame = () => {
+    if (!square.hasChildNodes()) {
+      const toTrash = document.createElement("span");
+      square.insertAdjacentElement("afterbegin", toTrash);
+    }
+
+    case1 = 1;
+    case2 = 2;
+    case3 = 3;
+    case4 = 4;
+    case5 = 5;
+    case6 = 6;
+    case7 = 7;
+    case8 = 8;
+    case9 = 9;
+    nullMatch = 0;
+
+    square.firstChild.remove();
+    square.classList.add("cursor");
+
+    if (!playersContent.children["player1"].classList.contains("active")) {
+      activeTogglePlayer();
+    }
+    if (gameContentElem.firstElementChild.classList.contains("modal")) {
+      modal.remove();
+    }
+  };
+  btnReload.addEventListener("click", reloadGame);
+  content.addEventListener("click", (event) => {
+    event.stopPropagation();
+    if (gameContentElem.firstElementChild.classList.contains("modal")) {
+      modal.addEventListener("click", reloadGame);
+    }
+  });
 });

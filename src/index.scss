@@ -28,6 +28,7 @@
 	margin: 2rem 0 0 0;
 	padding: 1rem 2rem;
 	border-radius: 0.5rem;
+	color: var(--light);
 	box-shadow: var(--box-shadow);
 	&.btn-primary {
 		background: var(--primary);
@@ -118,8 +119,20 @@
 		min-height: 50vh;
 		border-radius: 0.5rem;
 		box-shadow: var(--box-shadow);
+		.select-container{
+			margin-top: 1rem;
+			display: flex;
+			justify-content: center;
+			
+		}
+		select{
+			border: none;
+			background: var(--light);
+			// border-radius: 0.5rem;
+		// box-shadow: var(--box-shadow);
+		}
 		.players-container {
-			padding: 0 2rem;
+			padding: 0 6rem;
 			.players-content {
 				padding: 1rem 0;
 				display: flex;
