@@ -14,7 +14,7 @@ I listed here my roadmap:
 - Basic setting up HTML :heavy_check_mark:
 - Setting up Scss :heavy_check_mark:
 - Add counter(s) :heavy_check_mark:
-- Add IA player :white_check_mark:
+- Add IA player :heavy_check_mark:
 
 ### JavaScript:
 
@@ -25,6 +25,6 @@ I listed here my roadmap:
 - Add null match :heavy_check_mark:
 - Add counter number of parts :heavy_check_mark:
 - Add counter winner :heavy_check_mark:
-- Add IA player :white_check_mark:
+- Add IA player :heavy_check_mark:
 
 Often update...
