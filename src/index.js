@@ -169,7 +169,6 @@ squares.forEach((square) => {
           displayCounters();
         }
       }
-      console.log(gameContent.firstElementChild.classList.contains("modal"));
 
       // launch the AI ​​tour
       if (
