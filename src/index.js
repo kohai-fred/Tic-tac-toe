@@ -161,6 +161,16 @@ squares.forEach((square) => {
         checkPossibility();
       }
 
+      // if nobody win...
+      if (!gameContent.firstElementChild.classList.contains("modal")) {
+        if (nullMatch == 9) {
+          createModal("Match null...");
+          nbParts++;
+          displayCounters();
+        }
+      }
+      console.log(gameContent.firstElementChild.classList.contains("modal"));
+
       // launch the AI ​​tour
       if (
         selectPlayer.value == selectPlayer[0].value &&
@@ -169,14 +179,6 @@ squares.forEach((square) => {
         setTimeout(function () {
           iaTurn(target, targetOrdi);
         }, 300);
-      }
-      // if nobody win...
-      if (!gameContent.firstElementChild.classList.contains("modal")) {
-        if (nullMatch == 9) {
-          createModal("Match null...");
-          nbParts++;
-          displayCounters();
-        }
       }
     }
 
