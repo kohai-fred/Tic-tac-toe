@@ -77,14 +77,6 @@ const checkToWin = (a, b, c) => {
       displayCounters();
     }
   }
-  // if nobody win...
-  if (!gameContent.firstElementChild.classList.contains("modal")) {
-    if (nullMatch == 9) {
-      createModal("Match null...");
-      nbParts++;
-      displayCounters();
-    }
-  }
 };
 const checkPossibility = () => {
   nullMatch++;
@@ -177,6 +169,14 @@ squares.forEach((square) => {
         setTimeout(function () {
           iaTurn(target, targetOrdi);
         }, 300);
+      }
+      // if nobody win...
+      if (!gameContent.firstElementChild.classList.contains("modal")) {
+        if (nullMatch == 9) {
+          createModal("Match null...");
+          nbParts++;
+          displayCounters();
+        }
       }
     }
 
